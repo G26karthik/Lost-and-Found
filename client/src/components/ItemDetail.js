@@ -19,7 +19,8 @@ const ItemDetail = () => {
     if (!item || !userInfo) return;
     setStatusLoading(true);
     try {
-      await axios.put(`http://localhost:5000/api/items/${item._id}/status`, { status: 'returned' }, {
+      const API_URL = process.env.REACT_APP_API_URL || '';
+      await axios.put(`${API_URL}/api/items/${item._id}/status`, { status: 'returned' }, {
         headers: { Authorization: `Bearer ${userInfo.token}` }
       });
       setItem({ ...item, status: 'returned' });
@@ -40,12 +41,12 @@ const ItemDetail = () => {
         return;
       }
       try {
-        const { data } = await axios.get(`http://localhost:5000/api/items/${id}`, {
+        const API_URL = process.env.REACT_APP_API_URL || '';
+        const { data } = await axios.get(`${API_URL}/api/items/${id}`, {
           headers: {
             Authorization: `Bearer ${userInfo.token}`
           }
         });
-        
         setItem(data);
       } catch (error) {
         setError(
@@ -57,7 +58,6 @@ const ItemDetail = () => {
         setLoading(false);
       }
     };
-    
     if (id) {
       fetchItemDetails();
     }
@@ -103,7 +103,7 @@ const ItemDetail = () => {
               onClick={() => setImageModalOpen(true)}
             >
               <img 
-                src={`http://localhost:5000${item.photo}`} 
+                src={`${process.env.REACT_APP_API_URL || ''}${item.photo}`} 
                 alt={item.itemName}
                 className="w-full h-auto object-cover aspect-[4/3] transition-transform duration-300 ease-in-out group-hover:scale-105"
               />
@@ -225,7 +225,7 @@ const ItemDetail = () => {
               </svg>
             </button>
             <img 
-              src={`http://localhost:5000${item.photo}`} 
+              src={`${process.env.REACT_APP_API_URL || ''}${item.photo}`} 
               alt={`${item.itemName} - enlarged`} 
               className="w-full h-auto object-contain max-h-[calc(90vh-2rem)] rounded-md"
             />

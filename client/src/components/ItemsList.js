@@ -19,7 +19,8 @@ const ItemsList = () => {
         return;
       }
       try {
-        let url = 'http://localhost:5000/api/items?';
+        const API_URL = process.env.REACT_APP_API_URL || '';
+        let url = `${API_URL}/api/items?`;
         if (categoryFilter !== 'all') url += `category=${categoryFilter}&`;
         if (statusFilter !== 'all') url += `status=${statusFilter}&`;
         if (sortBy === 'latest') url += 'sortBy=createdAt&order=desc';

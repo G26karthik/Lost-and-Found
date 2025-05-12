@@ -13,7 +13,8 @@ const Register = ({ setUser }) => {
     setSuccess(false);
     try {
       setLoading(true);
-      const { data } = await axios.post('http://localhost:5000/api/users/register', {
+      const API_URL = process.env.REACT_APP_API_URL || '';
+      const { data } = await axios.post(`${API_URL}/api/users/register`, {
         rollNumber
       });
       localStorage.setItem('userInfo', JSON.stringify(data));

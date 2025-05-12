@@ -56,7 +56,8 @@ const ReportForm = ({ user }) => {
       if (category === 'found') {
         formData.append('contactPreference', contactPreference ? 'true' : 'false');
       }
-      await axios.post('http://localhost:5000/api/items', formData, {
+      const API_URL = process.env.REACT_APP_API_URL || '';
+      await axios.post(`${API_URL}/api/items`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${user.token}`

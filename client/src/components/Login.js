@@ -14,7 +14,8 @@ const Login = ({ setUser }) => {
       setLoading(true);
       setError('');
       
-      const { data } = await axios.post('http://localhost:5000/api/users/login', {
+      const API_URL = process.env.REACT_APP_API_URL || '';
+      const { data } = await axios.post(`${API_URL}/api/users/login`, {
         rollNumber,
         password
       });

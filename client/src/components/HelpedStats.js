@@ -13,7 +13,8 @@ const HelpedStats = () => {
       setError('');
       try {
         const token = JSON.parse(localStorage.getItem('userInfo'))?.token;
-        const { data } = await axios.get('http://localhost:5000/api/items', {
+        const API_URL = process.env.REACT_APP_API_URL || '';
+        const { data } = await axios.get(`${API_URL}/api/items`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setTotalPosted(data.length);
