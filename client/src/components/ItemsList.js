@@ -102,7 +102,7 @@ const ItemsList = () => {
                 >
                   <div className="aspect-w-16 aspect-h-9 w-full overflow-hidden">
                     <img 
-                      src={`http://localhost:5000${item.photo}`} 
+                      src={item.photo.startsWith('http') ? item.photo : `${process.env.REACT_APP_API_URL || ''}${item.photo}`} 
                       alt={item.itemName}
                       className="object-cover w-full h-48 duration-300 ease-in-out group-hover:scale-105" 
                     />

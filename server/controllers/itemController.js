@@ -7,7 +7,7 @@ const createItem = async (req, res) => {
   const { itemName, description, location, contactInfo, reportedBy, category, contactPreference } = req.body;
   
   try {
-    if (!req.file) {
+    if (!req.file || !req.file.path) {
       return res.status(400).json({ message: 'Please upload an image' });
     }
     if (!category) {
@@ -15,21 +15,24 @@ const createItem = async (req, res) => {
     }
 
     const parsedContactInfo = JSON.parse(contactInfo);
-    
+
+    // Cloudinary returns the URL in req.file.path (multer-storage-cloudinary)
+    const imageUrl = req.file.path;
+
     const item = new Item({
       itemName,
       description,
       location,
-      photo: `/uploads/${req.file.filename}`, // Corrected path to use /uploads/ and filename
+      photo: imageUrl, // Always use the Cloudinary URL
       contactInfo: parsedContactInfo,
       reportedBy,
       category,
       contactPreference: category === 'found' ? contactPreference === 'true' || contactPreference === true : false, // Ensure boolean, only for 'found' items
       status: 'open' // Default status
     });
-    
+
     const createdItem = await item.save();
-    
+
     res.status(201).json(createdItem);
   } catch (error) {
     console.error('Error creating item:', error.message);

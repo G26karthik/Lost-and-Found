@@ -13,9 +13,9 @@ app.use(cors());
 app.use(express.json());
 
 // Ensure uploads directory exists (for item images)
-const uploadsDir = path.join(__dirname, '/uploads');
-if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
-app.use('/uploads', express.static(uploadsDir));
+// const uploadsDir = path.join(__dirname, '/uploads');
+// if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
+// app.use('/uploads', express.static(uploadsDir));
 
 // API routes
 app.use('/api/users', userRoutes);

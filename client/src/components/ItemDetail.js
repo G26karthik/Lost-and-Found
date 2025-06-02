@@ -103,7 +103,7 @@ const ItemDetail = () => {
               onClick={() => setImageModalOpen(true)}
             >
               <img 
-                src={`${process.env.REACT_APP_API_URL || ''}${item.photo}`} 
+                src={item.photo.startsWith('http') ? item.photo : `${process.env.REACT_APP_API_URL || ''}${item.photo}`} 
                 alt={item.itemName}
                 className="w-full h-auto object-cover aspect-[4/3] transition-transform duration-300 ease-in-out group-hover:scale-105"
               />
@@ -225,7 +225,7 @@ const ItemDetail = () => {
               </svg>
             </button>
             <img 
-              src={`${process.env.REACT_APP_API_URL || ''}${item.photo}`} 
+              src={item.photo.startsWith('http') ? item.photo : `${process.env.REACT_APP_API_URL || ''}${item.photo}`} 
               alt={`${item.itemName} - enlarged`} 
               className="w-full h-auto object-contain max-h-[calc(90vh-2rem)] rounded-md"
             />
