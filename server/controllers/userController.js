@@ -5,17 +5,16 @@ const { generateToken } = require('../middleware/authMiddleware.js');
 // @desc    Get stats for helped users and items recovered
 // @route   GET /api/users/stats
 // @access  Private
+// Base stats to start from (historical data before system launch)
+const BASE_HELPED_USERS = 361;
+const BASE_ITEMS_RECOVERED = 180;
+
 const getStats = async (req, res) => {
   try {
-    // Base stats (historical data before the system was implemented)
-    const BASE_HELPED_USERS = 361;
-    const BASE_ITEMS_RECOVERED = 180;
-    
-    // Get current dynamic counts from database
     const currentUsers = await User.countDocuments();
     const currentItemsRecovered = await Item.countDocuments({ status: 'returned' });
     
-    // Combine base stats with dynamic counts
+    // Add base stats to current database counts
     const helpedUsers = BASE_HELPED_USERS + currentUsers;
     const itemsRecovered = BASE_ITEMS_RECOVERED + currentItemsRecovered;
     
