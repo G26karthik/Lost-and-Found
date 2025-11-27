@@ -1,5 +1,24 @@
 const User = require('../models/userModel.js');
+const Item = require('../models/itemModel.js');
 const { generateToken } = require('../middleware/authMiddleware.js');
+
+// @desc    Get stats for helped users and items recovered
+// @route   GET /api/users/stats
+// @access  Private
+const getStats = async (req, res) => {
+  try {
+    const helpedUsers = await User.countDocuments();
+    const itemsRecovered = await Item.countDocuments({ status: 'returned' });
+    
+    res.json({
+      helpedUsers,
+      itemsRecovered
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+};
 
 // @desc    Auth user & get token
 // @route   POST /api/users/login
@@ -63,5 +82,6 @@ const registerUser = async (req, res) => {
 
 module.exports = {
   authUser,
-  registerUser
+  registerUser,
+  getStats
 };

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const HelpedStats = () => {
-  const [totalPosted, setTotalPosted] = useState(0);
-  const [totalRecovered, setTotalRecovered] = useState(0);
+  const [helpedUsers, setHelpedUsers] = useState(0);
+  const [itemsRecovered, setItemsRecovered] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -14,11 +14,14 @@ const HelpedStats = () => {
       try {
         const token = JSON.parse(localStorage.getItem('userInfo'))?.token;
         const API_URL = process.env.REACT_APP_API_URL || '';
-        const { data } = await axios.get(`${API_URL}/api/items`, {
+        
+        // Fetch stats from dedicated stats endpoint
+        const { data } = await axios.get(`${API_URL}/api/users/stats`, {
           headers: { Authorization: `Bearer ${token}` }
         });
-        setTotalPosted(data.length);
-        setTotalRecovered(data.filter(item => item.status === 'returned').length);
+        
+        setItemsRecovered(data.itemsRecovered);
+        setHelpedUsers(data.helpedUsers);
       } catch (err) {
         setError('Failed to fetch stats.');
       } finally {
@@ -38,12 +41,12 @@ const HelpedStats = () => {
       ) : (
         <>
           <div className="mb-6">
-            <div className="text-4xl font-bold text-brand-primary mb-2">{totalRecovered}</div>
+            <div className="text-4xl font-bold text-brand-primary mb-2">{itemsRecovered}</div>
             <div className="text-brand-text-secondary text-lg">Items Found / Recovered</div>
           </div>
           <div>
-            <div className="text-2xl font-semibold text-brand-secondary mb-2">{totalPosted}</div>
-            <div className="text-brand-text-secondary text-lg">Total Items Reported</div>
+            <div className="text-2xl font-semibold text-brand-secondary mb-2">{helpedUsers}</div>
+            <div className="text-brand-text-secondary text-lg">Helped Users</div>
           </div>
         </>
       )}

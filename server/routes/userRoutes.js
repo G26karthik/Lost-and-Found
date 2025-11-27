@@ -2,7 +2,12 @@ const express = require('express');
 const router = express.Router();
 
 const { body, validationResult } = require('express-validator');
-const { authUser, registerUser } = require('../controllers/userController.js');
+const { authUser, registerUser, getStats } = require('../controllers/userController.js');
+const { protect } = require('../middleware/authMiddleware.js');
+
+// @route   GET /api/users/stats
+// @desc    Get stats for helped users and items recovered
+router.get('/stats', protect, getStats);
 
 
 // @route   POST /api/users/login
